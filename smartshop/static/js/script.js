@@ -58,3 +58,7 @@ $(document).ready(function() {
 }); 
 // jquery end
 
+setTimeout(function(){
+    $('#mess').fadeOut('slow')
+}, 4000)
+
