@@ -13,7 +13,7 @@
             {% include 'includes/alerts.html'%}
             <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
             
-            <form action="{% url 'register'%}" method="POST">
+            <form action="{% url 'register'%}" method="POST" onsubmit="return validatePhoneNumber();">
                 {% csrf_token %}
 
                     <div class="form-row">
@@ -62,5 +62,16 @@
     
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
-
+<script>
+	function validatePhoneNumber() {
+	  var phoneNumber = document.getElementById('id_phone_number').value;
+	  var isValid = /^[\d\+\-\(\)\s]+$/.test(phoneNumber);
+	  
+	  if (!isValid) {
+		alert('Invalid phone number format');
+		return false;
+	  }
+	  return true;
+	}
+</script>
 {% endblock %}
