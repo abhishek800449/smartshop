@@ -36,6 +36,8 @@ class UserForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
 
+        self.fields['phone_number'].widget.attrs['id'] = 'id_phone_number'
+
 
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.ImageField(required=False, error_messages = {'invalid':("Image files only")}, widget=forms.FileInput)
