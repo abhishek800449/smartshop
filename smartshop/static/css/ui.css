@@ -140,12 +140,12 @@ a:hover {
 }
 
 .hover-bg:hover {
-  background: #e938b1;
+  background: #d466aa;
   /* For browsers that do not support gradients */
   /* For Safari 5.1 to 6.0 */
   /* For Opera 11.1 to 12.0 */
   /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right, #e938b1, #e938b1);
+  background: linear-gradient(to bottom right, #d466aa, #d466aa);
   /* Standard syntax */
   transition: 0.5s;
 }
@@ -256,7 +256,7 @@ article:after,
 }
 
 .bg-blue {
-  background-color: #e938b1;
+  background-color: #d466aa;
 }
 
 .bg-red {
@@ -319,7 +319,7 @@ article:after,
 }
 
 .bg-pattern {
-  background-image: url(../images/banners/bg-pattern.svg), linear-gradient(135deg, #e938b1, #545454);
+  background-image: url(../images/banners/bg-pattern.svg), linear-gradient(135deg, #d466aa, #545454);
   background-size: cover, auto;
   background-repeat: no-repeat, repeat;
   background-position: 0px 0px, 50% 50%;
@@ -467,7 +467,7 @@ p:last-child {
   right: -10px;
 }
 .widget-header:hover i {
-  color: #e938b1;
+  color: #d466aa;
 }
 
 /* desktop only */
@@ -480,7 +480,7 @@ p:last-child {
   color: inherit;
 }
 .section-footer ul a:hover {
-  color: #e938b1;
+  color: #d466aa;
 }
 .section-footer .logo-footer {
   height: 40px;
@@ -640,7 +640,7 @@ p:last-child {
   color: #212529;
 }
 .itemside a.title:hover {
-  color: #e938b1;
+  color: #d466aa;
 }
 
 a.itemside {
@@ -783,7 +783,7 @@ ul.row, ul.row-sm {
 }
 .list-normal li:before {
   content: "•";
-  color: #e938b1;
+  color: #d466aa;
   display: inline-block;
   width: 1em;
   margin-left: -1em;
@@ -801,7 +801,7 @@ ul.row, ul.row-sm {
   color: #40343f;
 }
 .list-menu a:hover {
-  color: #e938b1;
+  color: #d466aa;
 }
 
 .cols-two {
@@ -824,7 +824,7 @@ a[class*=card] {
   color: initial;
 }
 a[class*=card]:hover .title {
-  color: #e938b1;
+  color: #d466aa;
 }
 
 /* BASE STYLE FOR PRODUCT ITEM */
@@ -833,7 +833,7 @@ a[class*=card]:hover .title {
   display: block;
 }
 [class*=card-product] a.title:hover {
-  color: #e938b1;
+  color: #d466aa;
 }
 [class*=card-product] .badge {
   top: 10px;
@@ -885,7 +885,7 @@ a[class*=card]:hover .title {
   color: #ccc;
 }
 .card-product-grid .topbar a:hover {
-  color: #e938b1;
+  color: #d466aa;
 }
 .card-product-grid .fix-height {
   height: 80px;
@@ -1188,7 +1188,7 @@ a[class*=card]:hover .title {
   margin-top: 7px;
 }
 .tracking-wrap .step.active .icon {
-  background: #e938b1;
+  background: #d466aa;
   color: #fff;
 }
 .tracking-wrap .step.active .text {
@@ -1196,7 +1196,7 @@ a[class*=card]:hover .title {
   color: #000;
 }
 .tracking-wrap .step.active:before {
-  background: #e938b1;
+  background: #d466aa;
 }
 
 .menu-category {
@@ -1288,8 +1288,8 @@ a[class*=card]:hover .title {
   opacity: 0;
 }
 .checkbox-btn input:checked ~ .btn {
-  border-color: #e938b1;
-  background-color: #e938b1;
+  border-color: #d466aa;
+  background-color: #d466aa;
   color: #fff;
 }
 
@@ -1305,8 +1305,8 @@ a[class*=card]:hover .title {
   opacity: 0;
 }
 .btn-check input:checked ~ .btn {
-  border-color: #e938b1;
-  background-color: #e938b1;
+  border-color: #d466aa;
+  background-color: #d466aa;
   color: #fff;
 }
 .btn-check:hover:not(.active) {
@@ -1325,7 +1325,7 @@ a[class*=card]:hover .title {
   left: 18px;
 }
 .js-check.active {
-  border-color: #e938b1;
+  border-color: #d466aa;
 }
 .js-check:hover:not(.active) {
   border-color: #ccc;
