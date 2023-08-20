@@ -21,7 +21,7 @@
 			</div>
 			<div class="row">
 			<div class="col-md-12">
-				<form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data" onsubmit="return validatePhoneNumber();">
+				<form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data" onsubmit="return validateNames();">
 					{% csrf_token %}
 					<div class="form-row">
 						<div class="form-group col-md-6">
@@ -79,17 +79,4 @@
 
 
 </section>
-<script>
-	function validatePhoneNumber() {
-	  var phoneNumber = document.getElementById('id_phone_number').value;
-	  var isValid = /^[\d\+\-\(\)\s]+$/.test(phoneNumber);
-	  
-	  if (!isValid) {
-		alert('Invalid phone number format');
-		return false;
-	  }
-	  return true;
-	}
-  </script>
-  
 {% endblock %}
