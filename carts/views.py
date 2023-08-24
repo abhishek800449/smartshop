@@ -3,7 +3,7 @@ from store.models import Product, Variation
 from .models import Cart, CartItem
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-
+from accounts.models import BillingAddress
 # Create your views here.
 
 def _cart_id(request):
@@ -169,6 +169,7 @@ def cart(request, total=0, quantity=0, cart_items=None):
 
 @login_required(login_url='login')
 def checkout(request, total=0, quantity=0, cart_items=None):
+    user_billing_addresses = BillingAddress.objects.filter(user=request.user)
     try:
         tax=0
         grand_total=0
@@ -191,5 +192,6 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         'cart_items': cart_items,
         'tax'       : tax,
         'grand_total': grand_total,
+        'user_billing_addresses': user_billing_addresses,
     }
-    return render(request, 'store/checkout.html', context)
+    return render(request, 'store/checkout.html', context) 

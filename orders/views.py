@@ -1,13 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from carts.models import CartItem
 from store.models import Product
-from .forms import OrderForm
 import datetime
 from .models import Order, Payment, OrderProduct
 import json
 from django.http import JsonResponse
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
+from accounts.models import BillingAddress
 # Create your views here.
 
 def payments(request):
@@ -93,43 +93,52 @@ def place_order(request, total=0, quantity=0,):
     grand_total = total + tax
 
     if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
+        
             # Store all the billing information inside Order table
-            data = Order()
-            data.user = current_user
-            data.first_name = form.cleaned_data['first_name']
-            data.last_name = form.cleaned_data['last_name']
-            data.phone = form.cleaned_data['phone']
-            data.email = form.cleaned_data['email']
-            data.address_line_1 = form.cleaned_data['address_line_1']
-            data.address_line_2 = form.cleaned_data['address_line_2']
-            data.country = form.cleaned_data['country']
-            data.state = form.cleaned_data['state']
-            data.city = form.cleaned_data['city']
-            data.order_note = form.cleaned_data['order_note']
-            data.order_total = grand_total
-            data.tax = tax
-            data.ip = request.META.get('REMOTE_ADDR')
-            data.save()
+
+        selected_address_id = request.POST.get('billing_address')
+        selected_address = get_object_or_404(BillingAddress, id=selected_address_id, user=current_user)
+
+        order = Order(
+                user=current_user,
+                first_name=selected_address.first_name,
+                last_name=selected_address.last_name,
+                phone=selected_address.phone_number,
+                email=request.user.email,
+                address_line_1=selected_address.address_line_1,
+                address_line_2=selected_address.address_line_2,
+                country=selected_address.country,
+                state=selected_address.state,
+                city=selected_address.city,
+                order_total=grand_total,
+                tax=tax,
+                ip=request.META.get('REMOTE_ADDR')
+        )
+        order.save()
+
+        order.order_total = grand_total
+        order.tax = tax
+        order.ip = request.META.get('REMOTE_ADDR')
+        order.save()
             # Generate order number
-            yr = int(datetime.date.today().strftime('%Y'))
-            dt = int(datetime.date.today().strftime('%d'))
-            mt = int(datetime.date.today().strftime('%m'))
-            d = datetime.date(yr,mt,dt)
-            current_date = d.strftime("%Y%m%d")
-            order_number = current_date + str(data.id)
-            data.order_number = order_number
-            data.save()
-            order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
-            context = {
+        yr = int(datetime.date.today().strftime('%Y'))
+        dt = int(datetime.date.today().strftime('%d'))
+        mt = int(datetime.date.today().strftime('%m'))
+        d = datetime.date(yr,mt,dt)
+            
+        order_number = f"{datetime.date.today().strftime('%Y%m%d')}{order.id}"
+        order.order_number = order_number
+        order.save()
+
+        order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
+        context = {
                 'order': order,
                 'cart_items': cart_items,
                 'total': total,
                 'tax': tax,
                 'grand_total': grand_total,
             }
-            return render(request, 'orders/payments.html', context)
+        return render(request, 'orders/payments.html', context)
     else:
         return redirect('checkout')
     

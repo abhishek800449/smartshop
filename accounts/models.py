@@ -84,3 +84,27 @@ class UserProfile(models.Model):
 
     def full_address(self):
         return f'{self.address_line_1} {self.address_line_2}'
+    
+
+class BillingAddress(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    phone_number = models.CharField(max_length=12)
+    address_line_1 = models.CharField(blank=True, max_length=100)
+    address_line_2 = models.CharField(blank=True, max_length=100)
+    city = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    country = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} - {self.city}, {self.country}"
+
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def get_full_address(self):
+        address_lines = [self.address_line_1, self.address_line_2]
+        address_lines = [line for line in address_lines if line]  # Remove empty lines
+        address = ", ".join(address_lines)
+        return f"{address}, {self.city}, {self.state}, {self.country}"

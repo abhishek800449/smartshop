@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegistrationForm, UserForm, UserProfileForm
-from .models import Account, UserProfile
+from .forms import RegistrationForm, UserForm, UserProfileForm, BillingAddressForm
+from .models import Account, UserProfile, BillingAddress
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
 from django.contrib import messages, auth
@@ -286,3 +286,32 @@ def order_detail(request, order_id):
         'subtotal': subtotal,
     }
     return render(request, 'accounts/order_detail.html', context)
+
+
+@login_required(login_url='login')
+def billing_address(request):
+    user_billing_addresses = BillingAddress.objects.filter(user=request.user)
+    if request.method == 'POST':
+        billing_address_form = BillingAddressForm(request.POST)
+        if billing_address_form.is_valid():
+            billing_address = billing_address_form.save(commit=False)
+            billing_address.user = request.user  # Assign the currently logged-in user
+            billing_address.save()
+            messages.success(request, 'New Billing Address is Added.')
+            return redirect('billing_address')
+    else:
+        billing_address_form = BillingAddressForm()
+    context = {
+        'billing_address_form':billing_address_form,
+        'user_billing_addresses': user_billing_addresses,
+    }
+    return render(request, 'accounts/billing_address.html', context)
+
+
+@login_required(login_url='login')
+def delete_billing_address(request, address_id):
+    address = get_object_or_404(BillingAddress, id=address_id, user=request.user)
+    if request.method == 'POST':
+        address.delete()
+        messages.success(request, 'Billing Address has been deleted.')
+    return redirect('billing_address')
