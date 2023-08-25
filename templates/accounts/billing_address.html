@@ -52,7 +52,7 @@
 		<div class="card-body">
 			<div class="row">
 			<div class="col-md-12">
-				<form action="{% url 'billing_address' %}" method="POST" enctype="multipart/form-data" onsubmit="return validateNames();">
+				<form action="{% url 'billing_address' %}" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="form-row">
 						<div class="form-group col-md-6">
@@ -78,17 +78,18 @@
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label>City</label>
-							{{billing_address_form.city}}
+							<label>Country</label>
+							{{billing_address_form.country}}
 						</div>
 						<div class="form-group col-md-4">
 							<label>State</label>
 							{{billing_address_form.state}}
 						</div>
 						<div class="form-group col-md-4">
-							<label>Country</label>
-							{{billing_address_form.country}}
-						</div>
+							<label>City</label>
+							{{billing_address_form.city}}
+						</div>            
+            {{ billing_address_form.non_field_errors }}											
 					</div>
 					<input type="submit" value="Save" class="btn btn-primary">
 				</form>
@@ -103,6 +104,48 @@
 </div>
 
 </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#id_country').change(function () {  // Change to match the actual ID of your country select input
+            var countryId = $(this).val();
+            $.ajax({
+                url: '{% url "get_states" %}',
+                data: { 'country_id': countryId },
+                dataType: 'json',
+                success: function (data) {
+                    var stateSelect = $('#id_state');  // Change to match the actual ID of your state select input
+                    stateSelect.empty();
+                    $.each(data.states, function (key, value) {
+                        stateSelect.append($('<option></option>').attr('value', value.id).text(value.name));
+						console.log(data);
+                    });
+                    // Trigger state change to populate cities if needed
+                    stateSelect.trigger('change');
+                }
+            });
+        });
+
+        $('#id_state').change(function () {  // Change to match the actual ID of your state select input
+            var stateId = $(this).val();
+            $.ajax({
+                url: '{% url "get_cities" %}',
+                data: { 'state_id': stateId },
+                dataType: 'json',
+                success: function (data) {
+                    var citySelect = $('#id_city');  // Change to match the actual ID of your city select input
+                    citySelect.empty();
+                    $.each(data.cities, function (key, value) {
+                        citySelect.append($('<option></option>').attr('value', value.id).text(value.name));
+						console.log(data);
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
       const toggleButton = document.getElementById('billing-address-toggle');

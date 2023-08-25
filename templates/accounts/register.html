@@ -13,7 +13,7 @@
             {% include 'includes/alerts.html'%}
             <header class="mb-4"><h4 class="card-title">Sign up</h4></header>
             
-            <form action="{% url 'register'%}" method="POST" onsubmit="return validateNames();">
+            <form action="{% url 'register'%}" method="POST">
                 {% csrf_token %}
 
                     <div class="form-row">

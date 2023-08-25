@@ -21,7 +21,7 @@
 			</div>
 			<div class="row">
 			<div class="col-md-12">
-				<form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data" onsubmit="return validateNames();">
+				<form action="{% url 'edit_profile' %}" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="form-row">
 						<div class="form-group col-md-6">
@@ -42,28 +42,7 @@
 							<label>Profile Picture</label>
 							{{profile_form.profile_picture}}
 						</div>
-					</div>
-					<div class="form-group">
-						<label>Address Line 1</label>
-						{{profile_form.address_line_1}}
-					</div>
-					<div class="form-group">
-						<label>Address Line 2</label>
-						{{profile_form.address_line_2}}
-					</div>
-					<div class="form-row">
-						<div class="form-group col-md-4">
-							<label>City</label>
-							{{profile_form.city}}
-						</div>
-						<div class="form-group col-md-4">
-							<label>State</label>
-							{{profile_form.state}}
-						</div>
-						<div class="form-group col-md-4">
-							<label>Country</label>
-							{{profile_form.country}}
-						</div>
+						{{ user_form.non_field_errors }}
 					</div>
 					<input type="submit" value="Save" class="btn btn-primary">
 				</form>

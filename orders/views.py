@@ -99,6 +99,9 @@ def place_order(request, total=0, quantity=0,):
         selected_address_id = request.POST.get('billing_address')
         selected_address = get_object_or_404(BillingAddress, id=selected_address_id, user=current_user)
 
+        country_name = selected_address.country.name
+        state_name = selected_address.state.name
+        city_name = selected_address.city.name
         order = Order(
                 user=current_user,
                 first_name=selected_address.first_name,
@@ -107,9 +110,9 @@ def place_order(request, total=0, quantity=0,):
                 email=request.user.email,
                 address_line_1=selected_address.address_line_1,
                 address_line_2=selected_address.address_line_2,
-                country=selected_address.country,
-                state=selected_address.state,
-                city=selected_address.city,
+                country=country_name,
+                state=state_name,
+                city=city_name,
                 order_total=grand_total,
                 tax=tax,
                 ip=request.META.get('REMOTE_ADDR')

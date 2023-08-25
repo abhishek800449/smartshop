@@ -20,5 +20,6 @@ urlpatterns = [
     path('order_detail/<int:order_id>/', views.order_detail, name='order_detail'),
     path('billing_address/', views.billing_address, name='billing_address'),
     path('delete_billing_address/<int:address_id>/', views.delete_billing_address, name='delete_billing_address'),
-
+    path('ajax/get_states/', views.get_states, name='get_states'),
+    path('ajax/get_cities/', views.get_cities, name='get_cities'),
 ]

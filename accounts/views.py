@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegistrationForm, UserForm, UserProfileForm, BillingAddressForm
-from .models import Account, UserProfile, BillingAddress
+from .models import Account, UserProfile, BillingAddress, Country, State, City
 from carts.models import Cart, CartItem
 from carts.views import _cart_id
 from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from orders.models import Order, OrderProduct
 import requests
+from django.http import JsonResponse
+import re
 # importing files for verification
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -202,6 +204,9 @@ def resetPassword(request):
         password = request.POST['password']
         confirm_password = request.POST['confirm_password']
         if password==confirm_password:
+            if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
+                    messages.error(request, "Password should be at least 8 characters and contain a combination of uppercase, lowercase, digits, and special symbols!")
+                    return redirect('resetPassword')
             uid = request.session.get('uid')
             user = Account.objects.get(pk=uid)
             user.set_password(password) # this is build in function in django normal save() does not work for paswords.
@@ -258,6 +263,9 @@ def change_password(request):
         if new_password == confirm_password:
             success = user.check_password(current_password)
             if success:
+                if not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', new_password):
+                    messages.error(request, "Password should be at least 8 characters and contain a combination of uppercase, lowercase, digits, and special symbols!")
+                    return redirect('change_password')
                 user.set_password(new_password)
                 user.save()
                 # auth.logout(request)
@@ -291,6 +299,7 @@ def order_detail(request, order_id):
 @login_required(login_url='login')
 def billing_address(request):
     user_billing_addresses = BillingAddress.objects.filter(user=request.user)
+    countries = Country.objects.all()
     if request.method == 'POST':
         billing_address_form = BillingAddressForm(request.POST)
         if billing_address_form.is_valid():
@@ -304,6 +313,7 @@ def billing_address(request):
     context = {
         'billing_address_form':billing_address_form,
         'user_billing_addresses': user_billing_addresses,
+        'countries': countries,
     }
     return render(request, 'accounts/billing_address.html', context)
 
@@ -315,3 +325,20 @@ def delete_billing_address(request, address_id):
         address.delete()
         messages.success(request, 'Billing Address has been deleted.')
     return redirect('billing_address')
+
+
+def get_states(request):
+    country_id = request.GET.get('country_id')
+    if country_id:
+        states = State.objects.filter(country_id=country_id)
+        state_list = [{'id': state.id, 'name': state.name} for state in states]
+        return JsonResponse({'states': state_list})
+    return JsonResponse({'error': 'Invalid country ID'})
+
+def get_cities(request):
+    state_id = request.GET.get('state_id')
+    if state_id:
+        cities = City.objects.filter(state_id=state_id)
+        city_list = [{'id': city.id, 'name': city.name} for city in cities]
+        return JsonResponse({'cities': city_list})
+    return JsonResponse({'error': 'Invalid state ID'})
