@@ -33,7 +33,7 @@
               <td>{{address.phone_number}}</td>
               <td>{{address.address_line_1}} {{address.address_line_2}} {{address.city}}, {{address.state}}, {{address.country}}</td>
               <td>
-                <input type="radio" name="billing_address" value="{{ address.id }}">
+                <input type="radio" name="billing_address" value="{{ address.id }}" required>
               </td>
             </tr>
         {% endfor %}
