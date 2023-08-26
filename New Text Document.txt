@@ -1,3 +1,0 @@
-username:Admin
-email:admin@smartshop.com
-pass:superuser

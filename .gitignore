@@ -1,1 +1,50 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Caches
+*.cache
+*.log
+
+# Compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Database files
+*.sqlite3
+*.db
+
+# Media files (uploaded user content)
+media/
+
+# Compiled translations
+*.mo
+
+# Secret key
+*.secret_key
+
+# IDE-specific files (choose the ones applicable to your development environment)
+.vscode/
+
+# Environment variables and sensitive data (use more specific patterns if needed)
+.env
+.env.*
+
+# Dependency directories
+/node_modules
+/bower_components
+
+# Compiled JavaScript files
+*.js.map
+
+# Temporary or backup files
+*~
+*.bak
+*.swp
+*.tmp
+
+# Notes
+New Text Document.txt
+
