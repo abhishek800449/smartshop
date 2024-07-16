@@ -118,7 +118,6 @@
                     stateSelect.empty();
                     $.each(data.states, function (key, value) {
                         stateSelect.append($('<option></option>').attr('value', value.id).text(value.name));
-						console.log(data);
                     });
                     // Trigger state change to populate cities if needed
                     stateSelect.trigger('change');
@@ -137,7 +136,6 @@
                     citySelect.empty();
                     $.each(data.cities, function (key, value) {
                         citySelect.append($('<option></option>').attr('value', value.id).text(value.name));
-						console.log(data);
                     });
                 }
             });
